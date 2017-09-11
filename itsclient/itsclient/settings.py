@@ -15,8 +15,8 @@ import os.path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
+#import dj_database_url
+#db_from_env = dj_database_url.config(conn_max_age=500)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -27,7 +27,7 @@ SECRET_KEY = '@6ql%1hk*750nts_2q#h#b3n(=n&m_v2!n2(6h!d3fo#b26spz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','gentle-harbor-32583.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -121,9 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 
-DATABASES['default'].update(db_from_env)
+#DATABASES['default'].update(db_from_env)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 

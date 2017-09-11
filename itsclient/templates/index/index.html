@@ -3,7 +3,7 @@
 <script>
 		console.log('send request');
 		$.ajax({
-    url : "https://itsserver.herokuapp.com/restapi/farmerdetail/",
+    url : "https://10.0.3.23:8069",
     type: "POST",
 	dataType: 'json',
     data : { 'username' : 'Apoorv', "csrfmiddlewaretoken": '{{ csrf_token }}' },
