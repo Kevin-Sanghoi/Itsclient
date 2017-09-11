@@ -3,7 +3,7 @@
 <script>
 		console.log('send request');
 		$.ajax({
-    url : "http://10.0.3.23:8069",
+    url : "http://10.0.3.23:8069/restapi/farmerdetail",
     type: "POST",
 	dataType: 'json',
     data : { 'username' : 'Apoorv', "csrfmiddlewaretoken": '{{ csrf_token }}' },
