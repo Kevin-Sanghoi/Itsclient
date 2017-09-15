@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^faq', views.faq, name='faq'),
     url(r'^contactus', views.contactus, name='contactus'),
     url(r'^landlord/', views.landlord, name='landlord'),
+    url(r'^wells/', views.wells, name='wells'),
+    url(r'^household/', views.household, name='household'),    
 ]

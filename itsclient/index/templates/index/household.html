@@ -1,0 +1,97 @@
+{% load static %}
+<script type="text/javascript" src ="https://maps.googleapis.com/maps/api/js" ></script>
+<script type="text/javascript" src="{% static 'index/js/gmaps.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+
+function gethouseholddetails(){
+    var t = null;
+		console.log('send request');
+		$.ajax({
+    url : "http://127.0.0.1:8000/map/householddetail/",
+//    url : "http://127.0.0.1:8000/mapsapp/householddetail/",
+    type: "POST",
+	dataType: 'json',
+    data : { 'username' : 'Avenash', "csrfmiddlewaretoken": '{{ csrf_token }}' },
+    success: function(data)
+    {
+        //data - response from server
+        console.log(data);
+        t = JSON.parse(data.household_detail);
+        $('#request').html(data.household_detail);
+        var map = new GMaps({
+        el: '#map',
+        lat: t.features[0].geometry.coordinates[1],
+        lng: t.features[0].geometry.coordinates[0],
+        
+        });
+        map.addMarker({
+        lat: t.features[0].geometry.coordinates[1],
+        lng: t.features[0].geometry.coordinates[0],
+        title: 'Lima',
+        click: function(e) {
+            alert("lat " + t.features[0].geometry.coordinates[1] + '\n' + "long " + t.features[0].geometry.coordinates[0]);
+        }
+        });
+    }
+
+});	
+}
+
+function getwelldetails(){
+    var t = null;
+    console.log('send request');
+    $.ajax({
+//    url : "http://10.0.3.23:6028/mapsapp/welldetail/",
+      url : "http://127.0.0.1:8000/map/welldetail/",
+type: "POST",
+dataType: 'json',
+data : { 'username' : 'Avenash', "csrfmiddlewaretoken": '{{ csrf_token }}' },
+success: function(data)
+{
+    //data - response from server
+    console.log(data);
+    t = JSON.parse(data.well_detail);
+    $('#request1').html(data.well_detail);
+    console.log('hello '+t);
+    //console.log('len '+t.well_detail.length);
+    /*for (var i = 0, len = t.well_detail.length; i < len; ++i) {
+     var student = data.well_detail[i];
+     console.log(student);
+     
+    }*/
+   
+var map = new GMaps({
+  el: '#map1',
+  lat: t.features[0].geometry.coordinates[1],
+  lng: t.features[0].geometry.coordinates[0],
+  
+});
+map.addMarker({
+  lat: t.features[0].geometry.coordinates[1],
+  lng: t.features[0].geometry.coordinates[0],
+  title: 'Lima',
+  click: function(e) {
+    alert('You clicked in this marker');
+  }
+});
+
+}
+}); 
+}
+    
+</script>
+<h1>Household Data in JSON format</h1>
+<button onclick="gethouseholddetails()">Household's data</button>
+
+<div id='request'></div>
+<div id = "map" style= "width :400px;height: 200px;" ></div>
+
+<h1>Well Data in JSON format</h1>
+<button onclick="getwelldetails()">Well's data</button>
+
+<div id='request1'></div>
+<div id = "map1" style= "width :400px;height: 200px;" >
+</div>

@@ -9,7 +9,8 @@
 	function getmapdetails(){
 		console.log('send request');
 		$.ajax({
-    url : "http://10.0.3.23:8017/restapi/mapdetail/",
+	url : "http://127.0.0.1:8000/map/farmsdetail/",
+//    url : "http://10.0.3.23:8017/restapi/mapdetail/",
     type: "POST",
 	dataType: 'json',
     data : { 'username' : 'Ramesh Pal', "csrfmiddlewaretoken": '{{ csrf_token }}' },
@@ -17,7 +18,7 @@
     {
         //data - response from server
 	        
-	        var obj = JSON.parse(data.farmer_detail);
+	        var obj = JSON.parse(data.farms_detail);
 	    	console.log('Hello '+ obj);
 	    	
 	    	//var filter=JSON.parse(obj);
