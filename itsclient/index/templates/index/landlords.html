@@ -9,9 +9,9 @@
 	function getmapdetails(){
 		console.log('send request');
 		$.ajax({
-	url : "http://127.0.0.1:8000/map/farmsdetail/",
+//	url : "http://127.0.0.1:8000/map/farmsdetail/",
 //    url : "http://10.0.3.23:8017/restapi/mapdetail/",
-	url : "http://10.0.3.23:8069/map/farmsdetail/"
+	url : "http://10.0.3.23:8069/map/farmsdetail/",
     type: "POST",
 	dataType: 'json',
     data : { 'username' : 'Ramesh Pal', "csrfmiddlewaretoken": '{{ csrf_token }}' },
