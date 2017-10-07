@@ -1,1 +1,1 @@
-[{"SID": 1, "owner_name": "Apoorv", "location": {"type": "Point", "coordinates": [80.02654646727049, 13.531142704051968]}, "storage": 100000.0, "DateTime": "2017-10-05T20:04:03.250902Z"}]
+[{"SID": 1, "owner_name": "Apoorv", "location": {"type": "Point", "coordinates": [80.02654646727049, 13.531142704051968]}, "storage": 100000.0, "DateTime": "2017-10-05T20:04:03.250902Z"}, {"SID": 2, "owner_name": "Kevin", "location": {"type": "Point", "coordinates": [80.27966116755354, 13.108105628507346]}, "storage": 10000.0, "DateTime": "2017-10-07T06:32:27.396730Z"}]

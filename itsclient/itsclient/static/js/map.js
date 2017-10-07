@@ -87,7 +87,7 @@ function hi(farm){
 function setMap(position) {
 	var myCenter = new google.maps.LatLng(13.5232,79.9982);
 	var mapCanvas = document.getElementById("map");
-	var mapOptions = {center: myCenter, zoom: 9, mapTypeId: 'terrain'};
+	var mapOptions = {center: myCenter, zoom: 10, mapTypeId: 'terrain'};
 	var map = new google.maps.Map(mapCanvas, mapOptions);
 	var srcImage = 'https://developers.google.com/maps/documentation/' +
 		'javascript/examples/full/images/talkeetna.png';
@@ -98,24 +98,61 @@ function setMap(position) {
 	var infowindow = new google.maps.InfoWindow();
 	$.getJSON( "../../static/json/household.json", function( data ) {
 		var marker
-		var house_icon = {
-			url:"../../static/img/images.png", 
-			scaledSize: new google.maps.Size(30, 30), 
-			origin: new google.maps.Point(0,0), 
-			anchor: new google.maps.Point(0, 0)
-		};
-		$.getJSON( "../../static/json/householdphoto.json", function( data1 ) {
+			$.getJSON( "../../static/json/householdphoto.json", function( data1 ){
+			for (row in data){
+				for(temp in data1){
+				var house_icon = {
+					url:"../../static/img/index.ico", 
+					scaledSize: new google.maps.Size(10*data[row].number_of_member, 10*data[row].number_of_member), 
+					origin: new google.maps.Point(0,0), 
+					anchor: new google.maps.Point(0, 0)
+				};
+				marker = new google.maps.Marker({
+					position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
+					icon:house_icon,
+				});
+				google.maps.event.addListener(marker, 'mouseover', (function(marker, row) {
+					return function() {
+						infowindow.setContent("<b>members : </b>"+data[row].number_of_member+ "<br><br>"+"<b>income :</b> "+data[row].monthly_income+ "<br><br>" +'<img src="http://127.0.0.1:8000'+data1[row].pic_name+'">');
+						infowindow.open(map, marker);
+					}
+				}
+				)(marker, row));
+				marker.setMap(map);
+			}
+		}
+		});
+	});
+//	$.getJSON( "../../static/json/household.json", function( data ) {
+//		var marker
+	/*	$.getJSON( "../../static/json/householdphoto.json", function( data1 ) {
 		for (row in data){ 
 			for(temp in data1){
 				if(data[row].HID == data1[temp].HID){
-			marker = new google.maps.Marker({
+					if(data[row].monthly_income>10000){
+			var house_icon = {
+			url:"../../static/img/index.ico", 
+			scaledSize: new google.maps.Size(10*data[row].number_of_member,10*data[row].number_of_member), 
+			origin: new google.maps.Point(0,0), 
+			anchor: new google.maps.Point(0, 0)
+			};
+			}
+			if(data[row].monthly_income<10000){
+			var house_icon = {
+			url:"../../static/img/index1.ico", 
+			scaledSize: new google.maps.Size(10*data[row].number_of_member,10*data[row].number_of_member), 
+			origin: new google.maps.Point(0,0), 
+			anchor: new google.maps.Point(0, 0)
+			};
+			}
+				marker = new google.maps.Marker({
 				position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
 				icon:house_icon,
 			});
 			google.maps.event.addListener(marker, 'mouseover', (function(marker, row) {
 
 				return function() {
-					infowindow.setContent("<b>members : </b>"+data[row].number_of_member+ "<br><br>"+"<b>income :</b> "+data[row].monthly_income+ "" + "<br><br>" + '<img src="http://10.0.3.23:8051' + data1[row].pic_name + '">');
+					infowindow.setContent("<b>members : </b>"+data[row].number_of_member+ "<br><br>"+"<b>income :</b> "+data[row].monthly_income+ "" + "<br><br>" + '<img src="http://127.0.0.1:8000' + data1[row].pic_name + '">');
 					infowindow.open(map, marker);
 				}
 			}
@@ -123,39 +160,102 @@ function setMap(position) {
 			marker.setMap(map);
 			}}}
 		});
-	});
-
+	});*/
 	$.getJSON( "../../static/json/well.json", function( data ) {
 		var marker
-		var well_icon = {
+			$.getJSON( "../../static/json/wellphoto.json", function( data1 ){
+			for (row in data){
+				for(temp in data1){
+				var house_icon = {
+					url:"../../static/img/well.jpg", 
+					scaledSize: new google.maps.Size(20,20), 
+					origin: new google.maps.Point(0,0), 
+					anchor: new google.maps.Point(0, 0)
+				};
+				marker = new google.maps.Marker({
+					position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
+					icon:house_icon,
+				});
+				google.maps.event.addListener(marker, 'mouseover', (function(marker, row) {
+					return function() {
+						infowindow.setContent("<b>Depth : </b>"+data[row].depth+"<br> <br>"+" <b>Yield :</b> "+ data[row].average_yield  + "<br><br>" + '<img src="http://127.0.0.1:8000' + data1[row].pic_name + '">');
+						infowindow.open(map, marker);
+					}
+				}
+				)(marker, row));
+				marker.setMap(map);
+			}
+		}
+		});
+	});
+
+/*	$.getJSON( "../../static/json/well.json", function( data )
+	{
+		var marker
+		var well_icon =
+		{
 			url:"../../static/img/well.jpg", // url
 			scaledSize: new google.maps.Size(30, 30), // scaled size
 			origin: new google.maps.Point(0,0), // origin
 			anchor: new google.maps.Point(0, 0) // anchor
 		};
-		$.getJSON( "../../static/json/wellphoto.json", function( data1 ) {
-		for (row in data){
-			for(temp in data1){
-				if(data[row].WID == data1[temp].WID){
-					marker = new google.maps.Marker({
-					position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
-					map: map,
-					icon:well_icon,
-			});
-			google.maps.event.addListener(marker, 'mouseover', (function(marker,row) {
-				return function() {
-				infowindow.setContent("<b>Depth : </b>"+data[row].depth+"<br> <br>"+" <b>Yield :</b> "+ data[row].average_yield  + "<br><br>" + '<img src="http://10.0.3.23:8051' + data1[row].pic_name + '">');
-				infowindow.open(map, marker);
-				}
-			}
+		$.getJSON( "../../static/json/wellphoto.json", function( data1 )
+		{
+		for (row in data)
+		{
+			for(temp in data1)
+			{
+				if(data[row].WID == data1[temp].WID)
+				{
+					marker = new google.maps.Marker
+					({
+						position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
+						icon:well_icon,
+					});
+					google.maps.event.addListener(marker, 'mouseover', (function(marker,row) 
+					{
+						return function() 
+						{
+							infowindow.setContent("<b>Depth : </b>"+data[row].depth+"<br> <br>"+" <b>Yield :</b> "+ data[row].average_yield  + "<br><br>" + '<img src="http://127.0.0.1:8000' + data1[row].pic_name + '">');
+							infowindow.open(map, marker);
+						}
+					}
 			)(marker, row));
 			marker.setMap(map);
 		}}
 		}
 		});
-	});
+	});*/
 
 	$.getJSON( "../../static/json/storage.json", function( data ) {
+		var marker
+			$.getJSON( "../../static/json/storagephoto.json", function( data1 ){
+			for (row in data){
+				for(temp in data1){
+				var house_icon = {
+					url:"../../static/img/storage.png", 
+					scaledSize: new google.maps.Size(20,20), 
+					origin: new google.maps.Point(0,0), 
+					anchor: new google.maps.Point(0, 0)
+				};
+				marker = new google.maps.Marker({
+					position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
+					icon:house_icon,
+				});
+				google.maps.event.addListener(marker, 'mouseover', (function(marker, row) {
+					return function() {
+						infowindow.setContent("<b>Owner : </b>"+data[row].owner_name+"<br> <br>"+" <b>Capacity :</b> "+ data[row].storage + "<br><br>" + '<img src="http://127.0.0.1:8000' + data1[row].pic_name + '">');
+						infowindow.open(map, marker);
+					}
+				}
+				)(marker, row));
+				marker.setMap(map);
+			}
+		}
+		});
+	});
+
+/*	$.getJSON( "../../static/json/storage.json", function( data ) {
 		var marker
 		var well_icon = {
 			url:"../../static/img/storage.png", // url
@@ -167,14 +267,14 @@ function setMap(position) {
 		for (row in data){
 			for(temp in data1){
 				if(data[row].SID == data1[temp].SID){
-			marker = new google.maps.Marker({
+				marker = new google.maps.Marker({
 				position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
 				map: map,
 				icon:well_icon,
 			});
 			google.maps.event.addListener(marker, 'mouseover', (function(marker,row) {
 				return function() {
-				infowindow.setContent("<b>Owner : </b>"+data[row].owner_name+"<br> <br>"+" <b>Capacity :</b> "+ data[row].storage + "<br><br>" + '<img src="http://10.0.3.23:8051' + data1[row].pic_name + '">');
+				infowindow.setContent("<b>Owner : </b>"+data[row].owner_name+"<br> <br>"+" <b>Capacity :</b> "+ data[row].storage + "<br><br>" + '<img src="http://127.0.0.1:8000' + data1[row].pic_name + '">');
 				infowindow.open(map, marker);
 				}
 			}
@@ -182,7 +282,7 @@ function setMap(position) {
 			marker.setMap(map);
 		}}}
 	});
-	});
+	});*/
 
 	$.getJSON( "../../static/json/farm.json", function( data ) {
 		for (row in data){ 

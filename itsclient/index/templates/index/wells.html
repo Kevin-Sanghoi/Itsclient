@@ -1,55 +1,77 @@
+<!DOCTYPE html>
+<html>
 {% load static %}
-<script type="text/javascript" src ="https://maps.googleapis.com/maps/api/js" ></script>
-<script type="text/javascript" src="{% static 'index/js/gmaps.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href ="{% static 'Cesium-1.38/Build/Cesium/Widgets/widgets.css' %}"></link>
+<style>
+	html,body,#cesiumContainer{
+		width: 100%;height: 100%;margin: 0;padding: 0;overflow: hidden;
+	}
+</style>
+<head>
+	
 
-<script>
+	<title>Wells</title>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+<script src="{% static 'Cesium-1.38/Build/Cesium/Cesium.js' %}"></script>
+<script src="{% static 'Cesium-1.38/Build/Cesium/Widgets/widgets.css' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+$.getJSON( "../../static/json/well.json", function( data ) {
+	var viewer = new Cesium.Viewer('cesiumContainer');
+	for (row in data){
 
-var t = null;
-function getwelldetails(){
-    console.log('send request');
-    $.ajax({
-//    url : "http://10.0.3.23:6028/mapsapp/welldetail/",
-      url : "http://10.0.3.23:8051/map/welldetail/",
-type: "POST",
-dataType: 'json',
-data : { 'username' : 'Avenash', "csrfmiddlewaretoken": '{{ csrf_token }}' },
-success: function(data)
-{
-    //data - response from server
-    console.log(data);
-    t = JSON.parse(data.well_detail);
-    console.log('hello '+t);
-    //console.log('len '+t.well_detail.length);
-    /*for (var i = 0, len = t.well_detail.length; i < len; ++i) {
-     var student = data.well_detail[i];
-     console.log(student);
-     
-    }*/
-   
-var map = new GMaps({
-  el: '#map',
-  lat: t.features[0].geometry.coordinates[1],
-  lng: t.features[0].geometry.coordinates[0],
-  
-});
-map.addMarker({
-  lat: t.features[0].geometry.coordinates[1],
-  lng: t.features[0].geometry.coordinates[0],
-  title: 'Lima',
-  click: function(e) {
-    alert('You clicked in this marker');
-  }
-});
-
+		var temp;
+		if (data[row].average_yield<300){
+			temp = Cesium.Color.BLUE.withAlpha(0.5);
+		}
+		else {
+			temp = Cesium.Color.GREEN.withAlpha(0.5);
+		}
+		if (data[row].average_yield>400 && data[row].average_yield<600){
+			temp = Cesium.Color.RED.withAlpha(0.5);
+		}
+		console.log(data[row].location.coordinates[0], data[row].location.coordinates[1]);
+		console.log("hello");
+		var greenCylinder = viewer.entities.add({
+	    name : 'Yield : '+data[row].average_yield+'\n'+'Depth : '+data[row].depth,
+	    position: Cesium.Cartesian3.fromDegrees(data[row].location.coordinates[0], data[row].location.coordinates[1], data[row].depth/2),
+	    cylinder : {
+	        length : data[row].depth,
+	        topRadius : 7000,
+	        bottomRadius : 7000,
+	        material : temp,
+	        outline : true,
+	        outlineColor : Cesium.Color.DARK_GREEN
+    }
+	});
 }
-});	
-}
-
+	viewer.zoomTo(viewer.entities);
+	/*
+		var marker
+		var well_icon = {
+			url:"../../static/img/dug_well.png", // url
+			scaledSize: new google.maps.Size(30, 30), // scaled size
+			origin: new google.maps.Point(0,0), // origin
+			anchor: new google.maps.Point(0, 0) // anchor
+		};
+			for (row in data){
+						marker = new google.maps.Marker({
+							position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
+							map: map,
+							icon:well_icon,
+						});
+						google.maps.event.addListener(marker, 'mouseover', (function(marker,row) {
+							return function() {
+							infowindow.setContent("<b>Depth : </b>"+data[row].depth+"<br> <br>"+" <b>Yield :</b> "+ data[row].average_yield+ "<br><br>" +'<img src="http://127.0.0.1:8002'+data[row].image+'">');
+							infowindow.open(map, marker);
+							}
+						}
+						)(marker, row));
+						marker.setMap(map);
+					}*/
+	});
 </script>
-<h1>Well Data in JSON format</h1>
-<button onclick="getwelldetails()">Well's data</button>
-
-<div id='request'></div>
-<div id = "map" style= "width :400px;height: 200px;" >
-</div>
+</body>
+</html>
