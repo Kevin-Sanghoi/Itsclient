@@ -101,12 +101,22 @@ function setMap(position) {
 			$.getJSON( "../../static/json/householdphoto.json", function( data1 ){
 			for (row in data){
 				for(temp in data1){
+					if(data[row].monthly_income>10000){
 				var house_icon = {
-					url:"../../static/img/index.ico", 
+					url:"../../static/img/index.png", 
 					scaledSize: new google.maps.Size(10*data[row].number_of_member, 10*data[row].number_of_member), 
 					origin: new google.maps.Point(0,0), 
 					anchor: new google.maps.Point(0, 0)
 				};
+				}
+				if(data[row].monthly_income<10000){
+			var house_icon = {
+			url:"../../static/img/index1.png", 
+			scaledSize: new google.maps.Size(10*data[row].number_of_member,10*data[row].number_of_member), 
+			origin: new google.maps.Point(0,0), 
+			anchor: new google.maps.Point(0, 0)
+			};
+			}
 				marker = new google.maps.Marker({
 					position: new google.maps.LatLng(data[row].location.coordinates[1], data[row].location.coordinates[0]),
 					icon:house_icon,
@@ -232,7 +242,7 @@ function setMap(position) {
 			$.getJSON( "../../static/json/storagephoto.json", function( data1 ){
 			for (row in data){
 				for(temp in data1){
-				var house_icon = {
+					var house_icon = {
 					url:"../../static/img/storage.png", 
 					scaledSize: new google.maps.Size(20,20), 
 					origin: new google.maps.Point(0,0), 
@@ -299,7 +309,6 @@ function setMap(position) {
 				fillColor: "green",
 				fillOpacity: 0.4,
 			});   
-
 			flightPath.setMap(map);
 			google.maps.event.addListener(flightPath, 'click', (function(marker,row) {
 				return function() {
