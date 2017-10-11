@@ -12,52 +12,52 @@ def index(request):
 
 def index1(request):
 	data = coreapi.Client()
-	schema = data.get("http://127.0.0.1:8000/household/")
+	schema = data.get("http://10.0.3.23:8050/household/")
 	with open('itsclient/static/json/household.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/farm/")
+	schema = data.get("http://10.0.3.23:8050/farm/")
 	with open('itsclient/static/json/farm.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/well/")
+	schema = data.get("http://10.0.3.23:8050/well/")
 	with open('itsclient/static/json/well.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/member/")
+	schema = data.get("http://10.0.3.23:8050/member/")
 	with open('itsclient/static/json/member.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/season/")
+	schema = data.get("http://10.0.3.23:8050/season/")
 	with open('itsclient/static/json/season.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/crop/")
+	schema = data.get("http://10.0.3.23:8050/crop/")
 	with open('itsclient/static/json/crop.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/storage/")
+	schema = data.get("http://10.0.3.23:8050/storage/")
 	with open('itsclient/static/json/storage.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/storagephoto/")
+	schema = data.get("http://10.0.3.23:8050/storagephoto/")
 	with open('itsclient/static/json/storagephoto.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/farmphoto/")
+	schema = data.get("http://10.0.3.23:8050/farmphoto/")
 	with open('itsclient/static/json/farmphoto.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/householdphoto/")
+	schema = data.get("http://10.0.3.23:8050/householdphoto/")
 	with open('itsclient/static/json/householdphoto.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/wellphoto/")
+	schema = data.get("http://10.0.3.23:8050/wellphoto/")
 	with open('itsclient/static/json/wellphoto.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/wellvideo/")
+	schema = data.get("http://10.0.3.23:8050/wellvideo/")
 	with open('itsclient/static/json/wellvideo.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/householdvideo/")
+	schema = data.get("http://10.0.3.23:8050/householdvideo/")
 	with open('itsclient/static/json/householdvideo.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/farmvideo/")
+	schema = data.get("http://10.0.3.23:8050/farmvideo/")
 	with open('itsclient/static/json/farmvideo.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/storagevideo/")
+	schema = data.get("http://10.0.3.23:8050/storagevideo/")
 	with open('itsclient/static/json/storagevideo.json', 'w') as outfile:
 		json.dump(schema, outfile)
-	schema = data.get("http://127.0.0.1:8000/householdaudio/")
+	schema = data.get("http://10.0.3.23:8050/householdaudio/")
 	with open('itsclient/static/json/householdaudio.json', 'w') as outfile:
 		json.dump(schema, outfile)
 	return render(request, 'index/index1.html')
