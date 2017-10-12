@@ -7,9 +7,10 @@ function drawChart(data) {
 	var data = google.visualization.arrayToDataTable(data);
 	var options = {
 		width: 400,
-    	height: 240,  
-    	title: 'area percentage of crops',
+    	height: 300,  
+    	title: 'Area Percentage of Crops',
     	is3D: true,
+    	animation: {duration: 1000, easing: 'out'}
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -61,7 +62,7 @@ function hello(farm,households){
 					yield.push(data[row].Yield)					
 				}
 			}
-			document.getElementById('farmdetails').innerHTML="<p><b>owner</b> : "+owner+"</p><br><p><b>Totalarea </b>: "+farm.area+" hectors</p><br>"+makeTableHTML(crop,yield)
+			document.getElementById('farmdetails').innerHTML="<p><b>Owner</b> : "+owner+"</p><br><p><b>Total Area </b>: "+farm.area+" hectares</p><br>"+makeTableHTML(crop,yield)
 		});
 	});
 }
@@ -85,9 +86,9 @@ function hi(farm){
 }
 
 function setMap(position) {
-	var myCenter = new google.maps.LatLng(13.5232,79.9982);
+	var myCenter = new google.maps.LatLng(12.9716,78.7541);
 	var mapCanvas = document.getElementById("map");
-	var mapOptions = {center: myCenter, zoom: 10, mapTypeId: 'terrain'};
+	var mapOptions = {center: myCenter, zoom: 9, mapTypeId: 'terrain'};
 	var map = new google.maps.Map(mapCanvas, mapOptions);
 	var srcImage = 'https://developers.google.com/maps/documentation/' +
 		'javascript/examples/full/images/talkeetna.png';
@@ -101,18 +102,18 @@ function setMap(position) {
 			$.getJSON( "../../static/json/householdphoto.json", function( data1 ){
 			for (row in data){
 				for(temp in data1){
-					if(data[row].monthly_income>10000){
+					if(data[row].monthly_income>=40000){
 				var house_icon = {
 					url:"../../static/img/index.png", 
-					scaledSize: new google.maps.Size(10*data[row].number_of_member, 10*data[row].number_of_member), 
+					scaledSize: new google.maps.Size(5*data[row].number_of_member,5*data[row].number_of_member), 
 					origin: new google.maps.Point(0,0), 
 					anchor: new google.maps.Point(0, 0)
 				};
 				}
-				if(data[row].monthly_income<10000){
+				if(data[row].monthly_income<40000){
 			var house_icon = {
 			url:"../../static/img/index1.png", 
-			scaledSize: new google.maps.Size(10*data[row].number_of_member,10*data[row].number_of_member), 
+			scaledSize: new google.maps.Size(5*data[row].number_of_member,5*data[row].number_of_member), 
 			origin: new google.maps.Point(0,0), 
 			anchor: new google.maps.Point(0, 0)
 			};
@@ -123,7 +124,7 @@ function setMap(position) {
 				});
 				google.maps.event.addListener(marker, 'mouseover', (function(marker, row) {
 					return function() {
-						infowindow.setContent("<b>members : </b>"+data[row].number_of_member+ "<br><br>"+"<b>income :</b> "+data[row].monthly_income+ "<br><br>" +'<img src="http://10.0.3.23:8050'+data1[row].pic_name+'">');
+						infowindow.setContent("<b> Members : </b>"+data[row].number_of_member+ "<br><br>"+"<b>Income(per month) :</b> "+data[row].monthly_income+ "<br><br>" +'<img src="http://10.0.3.23:8050'+data1[row].pic_name+'">');
 						infowindow.open(map, marker);
 					}
 				}
@@ -319,4 +320,33 @@ function setMap(position) {
 
 		}
 	});
+	var iconBase = '../../static/img/';
+        var icons = {
+          House1: {
+            name: 'Household(income<40k/month)',
+            icon: iconBase + 'index1.ico'
+          },
+          House2: {
+            name: 'Household(income>=40k/month)',
+            icon: iconBase + 'index.ico'
+          },
+          Well: {
+            name: 'Well',
+            icon: iconBase + 'well.ico'
+          },
+          Storage: {
+            name: 'Storage House',
+            icon: iconBase + 'storage.ico'
+          }
+        };
+ 	var legend = document.getElementById('legend');
+        for (var key in icons) {
+          var type = icons[key];
+          var name = type.name;
+          var icon = type.icon;
+          var div = document.createElement('div');
+          div.innerHTML = '<img src="' + icon + '"> ' + name;
+          legend.appendChild(div);
+        }
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }

@@ -38,9 +38,9 @@ $.getJSON( "../../static/json/well.json", function( data ) {
 	    name : 'Yield : '+data[row].average_yield+'\n'+'Depth : '+data[row].depth,
 	    position: Cesium.Cartesian3.fromDegrees(data[row].location.coordinates[0], data[row].location.coordinates[1], data[row].depth/2),
 	    cylinder : {
-	        length : data[row].depth,
-	        topRadius : 7000,
-	        bottomRadius : 7000,
+	        length : data[row].depth*100,
+	        topRadius : 5000,
+	        bottomRadius : 5000,
 	        material : temp,
 	        outline : true,
 	        outlineColor : Cesium.Color.DARK_GREEN
